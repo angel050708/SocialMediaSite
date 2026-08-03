@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthLayout } from "../components/AuthLayout.jsx";
+import { AvatarUpload } from "../components/AvatarUpload.jsx";
 import { FormField } from "../components/ui/FormField.jsx";
 import { Input } from "../components/ui/Input.jsx";
 import { Textarea } from "../components/ui/Textarea.jsx";
 import { Button } from "../components/ui/Button.jsx";
-import { Avatar } from "../components/ui/Avatar.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { api, ApiError } from "../lib/api.js";
 
@@ -18,6 +18,11 @@ export function EditProfilePage() {
   const [fieldErrors, setFieldErrors] = useState({});
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  async function handleAvatarUploaded(newUrl) {
+    setAvatarUrl(newUrl);
+    await refreshUser();
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -45,8 +50,8 @@ export function EditProfilePage() {
 
   return (
     <AuthLayout title="Edit your profile" subtitle="Tend to your little corner of Grove.">
-      <div className="mb-6 flex justify-center">
-        <Avatar src={avatarUrl || user.avatarUrl} alt={displayName} size="xl" organic />
+      <div className="mb-6">
+        <AvatarUpload currentUrl={avatarUrl} displayName={displayName} onUploaded={handleAvatarUploaded} />
       </div>
       <form onSubmit={handleSubmit} noValidate className="space-y-4">
         <FormField label="Display name" htmlFor="displayName" error={fieldErrors.displayName}>

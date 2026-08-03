@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthLayout } from "../components/AuthLayout.jsx";
 import { FormField } from "../components/ui/FormField.jsx";
 import { Input } from "../components/ui/Input.jsx";
+import { PasswordInput } from "../components/ui/PasswordInput.jsx";
 import { Button } from "../components/ui/Button.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { ApiError } from "../lib/api.js";
@@ -82,9 +83,8 @@ export function RegisterPage() {
           />
         </FormField>
         <FormField label="Password" htmlFor="password" error={fieldErrors.password}>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             autoComplete="new-password"
             required
             minLength={8}

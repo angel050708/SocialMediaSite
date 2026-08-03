@@ -14,11 +14,18 @@ import followsRoutes from "./routes/follows.routes.js";
 import postsRoutes from "./routes/posts.routes.js";
 import commentsRoutes from "./routes/comments.routes.js";
 import notificationsRoutes from "./routes/notifications.routes.js";
+import uploadsRoutes from "./routes/uploads.routes.js";
 
 export const app = express();
 
 app.use(helmet());
 app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
+app.use(
+  "/uploads",
+  express.static("uploads", {
+    setHeaders: (res) => res.set("Cross-Origin-Resource-Policy", "cross-origin"),
+  }),
+);
 app.use(express.json());
 app.use(sessionMiddleware);
 app.use(passport.initialize());
@@ -42,6 +49,7 @@ app.use("/api/follows", followsRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/comments", commentsRoutes);
 app.use("/api/notifications", notificationsRoutes);
+app.use("/api/uploads", uploadsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: "Not found" });
