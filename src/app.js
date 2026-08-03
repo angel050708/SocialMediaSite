@@ -23,7 +23,16 @@ const frontendDist = path.join(__dirname, "../frontend/dist");
 
 export const app = express();
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "img-src": ["'self'", "data:", "https:"],
+      },
+    },
+  }),
+);
 app.use(cors({ origin: env.CLIENT_ORIGIN, credentials: true }));
 app.use(
   "/uploads",

@@ -8,7 +8,7 @@ const PgSession = connectPgSimple(session);
 const pool = new pg.Pool({ connectionString: env.DATABASE_URL });
 
 export const sessionMiddleware = session({
-  store: new PgSession({ pool, tableName: "session" }),
+  store: new PgSession({ pool, tableName: "session", createTableIfMissing: true }),
   name: "sid",
   secret: env.SESSION_SECRET,
   resave: false,
