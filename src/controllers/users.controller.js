@@ -46,6 +46,15 @@ export async function getProfile(req, res, next) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    let relationshipStatus = "self";
+    if (user.id !== req.user.id) {
+      const follow = await prisma.follow.findUnique({
+        where: { followerId_followingId: { followerId: req.user.id, followingId: user.id } },
+        select: { status: true },
+      });
+      relationshipStatus = !follow ? "not_following" : follow.status === "ACCEPTED" ? "following" : "pending";
+    }
+
     const posts = await prisma.post.findMany({
       where: { authorId: user.id },
       orderBy: { createdAt: "desc" },
@@ -53,7 +62,7 @@ export async function getProfile(req, res, next) {
       select: postListSelect(req.user.id),
     });
 
-    res.json({ user, posts: posts.map(serializePost) });
+    res.json({ user, relationshipStatus, posts: posts.map(serializePost) });
   } catch (err) {
     next(err);
   }

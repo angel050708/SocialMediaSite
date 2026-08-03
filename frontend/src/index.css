@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-background: #fdfcf8;
+  --color-foreground: #2c2c24;
+  --color-primary: #5d7052;
+  --color-primary-foreground: #f3f4f1;
+  --color-secondary: #c18c5d;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #e6dccd;
+  --color-accent-foreground: #4a4a40;
+  --color-muted: #f0ebe5;
+  --color-muted-foreground: #78786c;
+  --color-border: #ded8cf;
+  --color-destructive: #a85448;
+  --color-card: #fefefa;
+
+  --font-heading: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 4px 20px -2px rgba(93, 112, 82, 0.15);
+  --shadow-soft-lg: 0 20px 40px -10px rgba(93, 112, 82, 0.15);
+
+  --ease-organic: cubic-bezier(0.23, 1, 0.32, 1);
+  --shadow-float: 0 10px 40px -10px rgba(193, 140, 93, 0.2);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  position: relative;
+  min-height: 100svh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  color: var(--color-foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Reusable organic blob radius presets — no straight lines, per the design system's core tenet */
+.blob-1 {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+.blob-2 {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+.blob-3 {
+  border-radius: 70% 30% 50% 50% / 30% 70% 30% 70%;
+}
