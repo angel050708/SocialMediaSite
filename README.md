@@ -2,7 +2,7 @@
 
 A full-stack social network clone (X/Threads-style) built with a Node.js/Express/PostgreSQL backend and a React/Vite frontend. Users can register, follow each other (with a request/accept flow), post, like, comment, and get real-time notifications over WebSockets.
 
-**Live demo:** not deployed yet — see [Local setup](#local-setup) below to run it on your machine.
+**Live demo:** [socialmediasite-production-bfe5.up.railway.app](https://socialmediasite-production-bfe5.up.railway.app)
 
 ## Features
 
@@ -66,6 +66,12 @@ npm run dev
 ```
 
 The app runs on `http://localhost:5173` and expects the backend to be running and reachable at `VITE_API_URL`.
+
+### Deployment
+
+The app deploys as a single service: `npm run build` builds the React app into `frontend/dist`, and the Express server serves those files directly (with a fallback to `index.html` for client-side routes), so one URL serves both the API and the UI. `VITE_API_URL` can be left unset in production — the frontend then talks to the API on the same origin.
+
+Required environment variables on the host: `DATABASE_URL`, `SESSION_SECRET`, and `CLIENT_ORIGIN` (set to the app's own public URL).
 
 ### Environment variables
 

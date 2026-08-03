@@ -1,3 +1,5 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
@@ -15,6 +17,9 @@ import postsRoutes from "./routes/posts.routes.js";
 import commentsRoutes from "./routes/comments.routes.js";
 import notificationsRoutes from "./routes/notifications.routes.js";
 import uploadsRoutes from "./routes/uploads.routes.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const frontendDist = path.join(__dirname, "../frontend/dist");
 
 export const app = express();
 
@@ -51,8 +56,17 @@ app.use("/api/comments", commentsRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/uploads", uploadsRoutes);
 
-app.use((req, res) => {
-  res.status(404).json({ error: "Not found" });
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ error: "Not found" });
+  }
+  next();
+});
+
+app.use(express.static(frontendDist));
+
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(frontendDist, "index.html"));
 });
 
 app.use(errorHandler);

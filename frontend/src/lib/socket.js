@@ -5,7 +5,7 @@ let socket = null;
 
 export function connectSocket() {
   if (socket) return socket;
-  socket = io(API_URL, { withCredentials: true });
+  socket = io(API_URL || undefined, { withCredentials: true });
   return socket;
 }
 
